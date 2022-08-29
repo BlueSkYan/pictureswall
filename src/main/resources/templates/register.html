@@ -1,0 +1,124 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>注册</title>
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Google fonts -->
+    <link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="/login/css/style.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<div class="signinform">
+    <!--        <h1>登录</h1>-->
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3_info">
+                <h2>注册</h2>
+                <form id="form">
+                    <div class="input-group">
+                        <span><i class="fas fa-user" aria-hidden="true"></i></span>
+                        <input type="text" placeholder="用户名或邮箱" name="username" id="username" required>
+                    </div>
+                    <div class="input-group">
+                        <span><i class="fas fa-key" aria-hidden="true"></i></span>
+                        <input type="password" placeholder="密码" name="password" id="password" required>
+                    </div>
+                    <div class="input-group">
+                        <span><i class="fas fa-key" aria-hidden="true"></i></span>
+                        <input type="password" placeholder="再次输入密码" name="password2" id="password2" required>
+                    </div>
+                    <div class="form-row bottom">
+                        <div class="form-check">
+                            <input type="checkbox" id="remenber" name="remenber" value="remenber">
+                            <label for="remenber"> 记住我?</label>
+                        </div>
+                        <a href="#url" class="forgot">忘记密码?</a>
+                    </div>
+                    <button class="btn btn-primary btn-block" id="submit" type="button">注册</button>
+                </form>
+                <p class="continue"><span>or Login with</span></p>
+                <div class="social-login">
+                    <a href="#github">
+                        <div class="facebook">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <a href="#twitter">
+                        <div class="twitter">
+                            <span class="fab fa-twitter" aria-hidden="true"></span>
+                        </div>
+                    </a>
+                    <a href="#google">
+                        <div class="google">
+                            <i class="fa fa-google" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                </div>
+                <p class="account">已有账户? <a href="/">登陆</a></p>
+            </div>
+        </div>
+        <!-- //main content -->
+    </div>
+    <!-- //container -->
+</div>
+
+<!-- fontawesome v5-->
+<script src="/login/js/fontawesome.js"></script>
+<script type="text/javascript">
+    layui.use(['layer', 'jquery', 'form'], function () {
+        var $ = layui.$;
+        var layer = layui.layer;
+        var form = layui.form;
+        $("#submit").click(function (data) {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var password2 = $("#password2").val();
+            if (username == "") {
+                layer.msg("用户名不能为空！")
+                $("#username").focus();
+            } else if (password == "") {
+                layer.msg("密码不能为空！")
+                $("#password").focus();
+            } else if (password2 == "") {
+                layer.msg("再次输入密码不能为空！")
+                $("#password2").focus();
+            } else {
+                if (password2 != password) {
+                    layer.msg("两次密码不一致！")
+                } else {
+                    var formdata = $("#form").serialize();
+                    $.post("/admin/register", formdata, function (res) {
+                        if (res.code == 1) {
+                            layer.msg("注册成功，请登录！")
+                            setTimeout("location.href = '/'",2000);
+                        } else {
+                            layer.msg(res.msg)
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+</script>
+</body>
+
+</html>
